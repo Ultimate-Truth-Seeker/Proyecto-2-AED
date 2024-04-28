@@ -10,4 +10,14 @@ public class Cancion {
         this.caracteristicas = caracteristicas;
     }
 
+    // Getters
+    public String getNombre() {
+        return nombre;
+    }
+
+    public double[] getCaracteristicas() {
+        return caracteristicas;
+    }
+
+    }
 }
