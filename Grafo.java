@@ -16,4 +16,25 @@ class Grafo<T> {
             adjListArray[i] = new LinkedList<>();
         }
     }
+
+    // Agrega una arista a un grafo no dirigido
+    void addEdge(T src, T dest) {
+        // Agrega una arista de src a dest.
+        adjListArray[src].add(dest);
+
+        // Dado que el grafo es no dirigido, agrega una arista de dest a src también
+        adjListArray[dest].add(src);
+    }
+
+    // Una función de utilidad para imprimir la representación de la lista de adyacencia del grafo
+    void printGraph() {
+        for(int v = 0; v < numVertices; v++) {
+            System.out.println("Lista de adyacencia del vértice "+ v);
+            System.out.print("head");
+            for(T pCrawl: adjListArray[v]){
+                System.out.print(" -> "+pCrawl);
+            }
+            System.out.println("\n");
+        }
+    }
 }
