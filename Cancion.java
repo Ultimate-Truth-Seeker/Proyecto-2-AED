@@ -19,5 +19,13 @@ public class Cancion {
         return caracteristicas;
     }
 
+    // Método para calcular la distancia euclidiana
+    public double calcularDistanciaEuclidiana(Cancion otraCancion) {
+        double[] otrasCaracteristicas = otraCancion.getCaracteristicas();
+        double suma = 0.0;
+        for (int i = 0; i < this.caracteristicas.length; i++) {
+            suma += Math.pow(this.caracteristicas[i] - otrasCaracteristicas[i], 2);
+        }
+        return Math.sqrt(suma);
     }
 }
