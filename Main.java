@@ -1,8 +1,9 @@
+import java.util.ArrayList;
+
 public class Main {
     public static void main(String args[]) {
         // crea el grafo dado en la figura anterior
-        int V = 5;
-        Grafo<String> graph = new Grafo<String>(V);
+        Grafo<String> graph = new Grafo<String>(new ArrayList<>());
         graph.addEdge("Usuario1", "Canción1");
         graph.addEdge("Usuario1", "Canción2");
         graph.addEdge("Usuario2", "Canción1");
