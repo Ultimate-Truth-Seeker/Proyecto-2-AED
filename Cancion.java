@@ -1,4 +1,5 @@
 import java.util.Arrays;
+import java.util.Map;
 
 public class Cancion {
     private String nombre;
@@ -27,5 +28,22 @@ public class Cancion {
             suma += Math.pow(this.caracteristicas[i] - otrasCaracteristicas[i], 2);
         }
         return Math.sqrt(suma);
+    }
+
+    // Método para crear un vector a partir de los mapas dados fields y weights
+    public static double[] makeVector(Map<String, Object> fields, Map<String, Object> weights) {
+        double[] vector = new double[fields.size()];
+
+        int count = 0;
+        for (String field : fields.keySet()) {
+            if (Number.class.isAssignableFrom(fields.get(field).getClass())) {
+                vector[count] = (double) fields.get(field) * (double) weights.get(field);
+            } else if (fields.get(field).getClass() == String.class) {
+                vector[count] = (double) ((Map) weights.get(field)).get(fields.get(field));
+            }
+            count ++;
+        }
+        
+        return vector;
     }
 }
