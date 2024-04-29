@@ -23,6 +23,16 @@ public class Main {
         
         List<Cancion> canciones = new ArrayList<>();
 
-
+        //Calcula la similitud de las canciones
+        double[][] similitud = new double[canciones.size()][canciones.size()];
+        for (int i = 0; i < canciones.size(); i++) {
+            Cancion cancion1 = canciones.get(i);
+            for (int j = i; j < canciones.size(); j++) {
+                Cancion cancion2 = canciones.get(j);
+                similitud[i][j] = cancion1.calcularDistanciaEuclidiana(cancion2);
+                //Esto es para que no sea direccionado, y se puedan correlacionar
+                similitud[j][i] = similitud[i][j]; 
+            }
+        }
     }
 }
