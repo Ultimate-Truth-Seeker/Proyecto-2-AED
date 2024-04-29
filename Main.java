@@ -34,5 +34,14 @@ public class Main {
                 similitud[j][i] = similitud[i][j]; 
             }
         }
+        
+        //Conecta las canciones basándose en la similitud del umbral
+        for (int i = 0; i < similitud.length; i++) {
+            for (int j = i + 1; j < similitud[i].length; j++) {
+                if (similitud[i][j] >= umbral) {
+                    grafo.addEdge(canciones.get(i).getNombre(), canciones.get(j).getNombre());
+                }
+            }
+        }
     }
 }
