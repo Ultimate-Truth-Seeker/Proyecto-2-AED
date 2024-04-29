@@ -26,7 +26,19 @@ public class Main {
         baseDatosGrafo.printGraph();
         Scanner s = new Scanner(System.in);
 
-
+        System.out.println("Bienvenido, Ingrese el nombre de una canción");
+        
+        String Name = s.nextLine();
+        for (Cancion c : baseDatosGrafo.getAdjList().keySet()) {
+            if (c.getNombre().equals(Name)) {
+                System.out.println("Canciones similares:");
+                for (Cancion cc : baseDatosGrafo.getAdjList().get(c)) {
+                    System.out.println(cc.getNombre());
+                }
+                return;
+            }
+        }
+        System.out.println("Canción no disponible en la base de datos");
     }
 
     private static void conexion(Grafo<Cancion> grafo, double umbral) {
