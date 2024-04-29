@@ -19,9 +19,10 @@ public class Main {
 
     }
 
-    private static void conexion(Grafo<String> grafo, double umbral) {
+    private static void conexion(Grafo<Cancion> grafo, double umbral) {
         
         List<Cancion> canciones = new ArrayList<>();
+        canciones.addAll(grafo.getAdjList().keySet());
 
         //Calcula la similitud de las canciones
         double[][] similitud = new double[canciones.size()][canciones.size()];
@@ -39,7 +40,7 @@ public class Main {
         for (int i = 0; i < similitud.length; i++) {
             for (int j = i + 1; j < similitud[i].length; j++) {
                 if (similitud[i][j] >= umbral) {
-                    grafo.addEdge(canciones.get(i).getNombre(), canciones.get(j).getNombre());
+                    grafo.addEdge(canciones.get(i), canciones.get(j));
                 }
             }
         }

@@ -4,6 +4,10 @@ class Grafo<T> {
     private int numVertices;
     private Map<T, LinkedList<T>> adjList;
 
+    public Map<T, LinkedList<T>> getAdjList() {
+        return adjList;
+    }
+
     // constructor
     Grafo(List<T> Vertices) {
         this.numVertices = Vertices.size();
