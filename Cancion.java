@@ -36,14 +36,18 @@ public class Cancion {
 
         int count = 0;
         for (String field : fields.keySet()) {
-            if (Number.class.isAssignableFrom(fields.get(field).getClass())) {
+            if (fields.get(field) instanceof Number) {
                 vector[count] = (double) fields.get(field) * (double) weights.get(field);
             } else if (fields.get(field).getClass() == String.class) {
-                vector[count] = (double) ((Map) weights.get(field)).get(fields.get(field));
+                if (!((Map) weights.get(field)).containsKey(fields.get(field))) {
+                    Double position = ((Map) weights.get(field)).size() + 1.0;
+                    ((Map) weights.get(field)).put(fields.get(field), position);
+                }
+                vector[count] = (Double) ((Map) weights.get(field)).get(fields.get(field));
             }
             count ++;
         }
-        
         return vector;
+        
     }
 }

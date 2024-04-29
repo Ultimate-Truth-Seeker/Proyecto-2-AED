@@ -1,30 +1,31 @@
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.io.File;
+import java.io.FileNotFoundException;
 
 public class Main {
 
     static String csvFile = "datosdeprueba.csv";
-    static double umbral = 0.2;
-    static Map<String, Object> weights = new HashMap<>();
+    static double umbral = 2;
+    static Map<String, Object> weights = new LinkedHashMap<>();
     
     public static void main(String args[]) {
         // crea el grafo dado en la figura anterior
-        Grafo<String> graph = new Grafo<String>(List.of());
-        graph.addEdge("Usuario1", "Canción1");
-        graph.addEdge("Usuario1", "Canción2");
-        graph.addEdge("Usuario2", "Canción1");
-        graph.addEdge("Usuario2", "Canción3");
-        graph.addEdge("Canción1", "Usuario1");
-        graph.addEdge("Canción1", "Usuario2");
-        graph.addEdge("Canción2", "Usuario1");
-        graph.addEdge("Canción3", "Usuario2");
+        weights.put("Name", 0.0);
+        weights.put("Artist", new HashMap<>());
+        weights.put("Genre", new HashMap<>());
+        weights.put("Tempo", 0.01);
 
-        // imprime la representación de la lista de adyacencia del grafo anterior
-        graph.printGraph();
+
+        Grafo<Cancion> baseDatosGrafo = loadSongs();
+        conexion(baseDatosGrafo, umbral);
+        baseDatosGrafo.printGraph();
+        Scanner s = new Scanner(System.in);
+
 
     }
 
@@ -71,10 +72,14 @@ public class Main {
                 String name = "";
                 for (String field : weights.keySet()) {
                     if (field.equals("Name")) {
-                        values.put(field, 0);
+                        values.put(field, 0.0);
                         name = sl.next();
                     } else {
-                        values.put(field, sl.next()); 
+                        if (weights.get(field) instanceof Number) {
+                            values.put(field, Double.valueOf(sl.next()));
+                        } else {
+                            values.put(field, sl.next()); 
+                        }
                     }
                 }
                 canciones.add(new Cancion(name, Cancion.makeVector(values, weights)));
@@ -82,7 +87,7 @@ public class Main {
 
             return new Grafo<>(canciones);
             
-        } catch (Exception e) {
+        } catch (FileNotFoundException e) {
             System.err.println("* Error de lectura");
             return null;
         }
