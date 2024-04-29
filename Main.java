@@ -1,7 +1,16 @@
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Scanner;
+import java.io.File;
 
 public class Main {
+
+    static String csvFile = "datosdeprueba.csv";
+    static double umbral = 0.2;
+    static Map<String, Object> weights = new HashMap<>();
+    
     public static void main(String args[]) {
         // crea el grafo dado en la figura anterior
         Grafo<String> graph = new Grafo<String>(List.of());
@@ -43,6 +52,39 @@ public class Main {
                     grafo.addEdge(canciones.get(i), canciones.get(j));
                 }
             }
+        }
+    }
+
+    private static Grafo<Cancion> loadSongs() {
+        List<Cancion> canciones = new ArrayList<>();
+        try (Scanner sc = new Scanner(new File(csvFile))) {
+            boolean FirstRow = true;
+
+            while (sc.hasNextLine()) {
+                Scanner sl = new Scanner(sc.nextLine());
+                sl.useDelimiter(",");
+                if (FirstRow) {
+                    FirstRow = false;
+                    continue;
+                }
+                Map<String, Object> values = new HashMap<>(); 
+                String name = "";
+                for (String field : weights.keySet()) {
+                    if (field.equals("Name")) {
+                        values.put(field, 0);
+                        name = sl.next();
+                    } else {
+                        values.put(field, sl.next()); 
+                    }
+                }
+                canciones.add(new Cancion(name, Cancion.makeVector(values, weights)));
+            }
+
+            return new Grafo<>(canciones);
+            
+        } catch (Exception e) {
+            System.err.println("* Error de lectura");
+            return null;
         }
     }
 }
