@@ -146,3 +146,24 @@ class StartPage(tk.Frame):
         button.pack()
         button = tk.Button(self, text="Registrarse", command=lambda: controller.show_frame(Register))
         button.pack()
+
+#Agregar funcionalidades a distintos botones, o añadir mensajes en pantalla
+class Home(tk.Frame):
+    def _init_(self, root, controller):
+        tk.Frame._init_(self, root)
+        self.controller = controller
+        welcome = tk.Label(self, text="Bienvenido, " + controller.username)
+        welcome.pack()
+        label = tk.Label(self, text="Búsqueda de canciones")
+        label.pack()
+        query = tk.Entry(self)
+        query.pack()
+        button = tk.Button(self, text="buscar", command=lambda: self.search(query.get()))
+        button.pack()
+        tags = run(get_toptags)
+        logout = tk.Button(self, text="Cerrar Sesión", command=self.log_out)
+        logout.pack()
+        taglabel = tk.Label(self, text="Categorías musicales")
+        taglabel.pack()
+        for tg in tags:
+            tk.Button(self, text=tg["tags"]["name"], command=lambda: self.chooseTag(tg)).pack()
