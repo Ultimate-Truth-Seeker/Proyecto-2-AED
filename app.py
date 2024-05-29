@@ -283,3 +283,46 @@ class Register(tk.Frame):
             self.controller.show_frame(StartPage)
         else:
             messagebox.showerror("Error de registro", "El nombre de usuario ya está en uso")
+
+class LoginWindow(tk.Frame):
+    def _init_(self, root, controller):
+        tk.Frame._init_(self, root)
+        self.controller = controller
+ #       self.root = root
+#        self.root.title("Inicio de sesión")
+
+        self.username_label = tk.Label(self, text="Usuario")
+        self.username_label.pack()
+
+        self.username_entry = tk.Entry(self)
+        self.username_entry.pack()
+
+        self.password_label = tk.Label(self, text="Contraseña")
+        self.password_label.pack()
+
+        self.password_entry = tk.Entry(self, show="*")
+        self.password_entry.pack()
+
+        self.login_button = tk.Button(self, text="Iniciar sesión", command=self.login)
+        self.login_button.pack()
+        self.back_button = tk.Button(self, text="Regresar", command=lambda: controller.show_frame(StartPage))
+        self.back_button.pack()
+
+    def login(self):
+        username = self.username_entry.get()
+        password = self.password_entry.get()
+
+        # Aquí debes verificar las credenciales del usuario. Este es solo un ejemplo.
+
+        u = run(login, name=username, password=password)
+        
+        if len(u) > 0:
+            messagebox.showinfo("Inicio de sesión exitoso", "¡Bienvenido, " + username + "!")
+            print(u[0]["user"]["name"])
+            self.controller.username = u[0]["user"]["name"]
+            self.controller.password = u[0]["user"]["password"]
+            self.controller.update_frame(Home)
+            self.controller.show_frame(Home)
+            
+        else:
+            messagebox.showerror("Error de inicio de sesión", "Usuario o contraseña incorrectos")
