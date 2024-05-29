@@ -236,3 +236,50 @@ class Tag(tk.Frame):
         for s in songs:
             print(s["song"]["name"])
             tk.Button(self, text=s["song"]["name"], command=lambda: controller.select(s, Tag)).pack()
+
+class Register(tk.Frame):
+    def _init_(self, root, controller):
+        tk.Frame._init_(self, root)
+        self.controller = controller
+        self.username_label = tk.Label(self, text="Ingrese nombre de usuario:")
+        self.username_label.pack()
+
+        self.username_entry = tk.Entry(self)
+        self.username_entry.pack()
+
+        self.password_label = tk.Label(self, text="Ingrese contraseña:")
+        self.password_label.pack()
+
+        self.password_entry = tk.Entry(self, show="*")
+        self.password_entry.pack()
+
+        self.password2_label = tk.Label(self, text="Confirme contraseña:")
+        self.password2_label.pack()
+
+        self.password2_entry = tk.Entry(self, show="*")
+        self.password2_entry.pack()
+
+        self.login_button = tk.Button(self, text="Crear Usuario", command=self.verify)
+        self.login_button.pack()
+
+        self.back_button = tk.Button(self, text="Regresar", command=lambda: controller.show_frame(StartPage))
+        self.back_button.pack()
+
+    def verify(self):
+        user = self.username_entry.get()
+        password = self.password_entry.get()
+        password2 = self.password2_entry.get()
+        if (password != password2):
+            messagebox.showerror("Error de registro","¡Las contraseñas no coinciden!")
+            return
+        if (user == ""):
+            messagebox.showerror("Error de registro","¡Nombre de usuario vacío!")
+            return
+        pr = run(check_user, name=user)
+        print(pr)
+        if len(pr) == 0:
+            run(sign_up, name=user, password=password)
+            messagebox.showinfo("¡Creación exitosa de usario!")
+            self.controller.show_frame(StartPage)
+        else:
+            messagebox.showerror("Error de registro", "El nombre de usuario ya está en uso")
