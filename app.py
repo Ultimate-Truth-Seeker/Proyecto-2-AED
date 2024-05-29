@@ -185,4 +185,15 @@ class Home(tk.Frame):
         self.controller.tag = tag
         self.controller.update_frame(Tag)
         self.controller.show_frame(Tag)
-    
+
+class Search(tk.Frame):
+    def _init_(self, root, controller):
+        tk.Frame._init_(self, root)
+        self.controller = controller
+        button = tk.Button(self, text="atras", command=lambda: controller.show_frame(Home))
+        button.pack()
+        song = controller.song
+        if (song != None):
+            srchresult = tk.Button(self, text=song["song"]["name"] + " | "+ song["artist"]["name"], command=lambda:controller.songPage(Search))
+            srchresult.pack()
+
