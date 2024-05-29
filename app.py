@@ -65,6 +65,7 @@ RETURN s AS song
 
 
 
+#Esta función ejecuta una consulta en Neo4j y devuelve los resultados
 def makeQuery(tx, query, name=None, password = None, uid=None, Id= None, song=None, tag=None):
     result = tx.run(query, name=name, password = password, uid=uid, Id= Id, song=song, tag=tag)
     return list(result)
@@ -74,17 +75,17 @@ import os
 from neo4j import GraphDatabase
 
 
-
+# son las credenciales para conectarse a la base de datos de Neo4j
 URI = "neo4j+ssc://07e5e662.databases.neo4j.io"
 AUTH = ("neo4j", "Gyay1_asYeu7DCXRMkBeRLDg90a5oc2K1yhWR8F17iw")
 
+#  se encarga de ejecutar las consultas en la base de datos Neo4j
 def run(query, name=None, password = None, uid=None, Id= None, song=None, tag=None):
+    #Conexión a la base de datos 
     with GraphDatabase.driver(URI, auth=AUTH) as driver:
         driver.verify_connectivity()
         with driver.session(database="neo4j") as session:
             return session.execute_write(makeQuery, query, name, password, uid, Id, song, tag)
-
-
 
 
 import tkinter as tk
@@ -92,11 +93,7 @@ import tkinter as tk
 from tkinter import messagebox
 from tkinter import ttk
 
-
-
-
-
-
+#Esta clase se encargará de mostrar en pantalla todas las opciones
 class App:
     def __init__(self, root):
         self.root = root
@@ -188,6 +185,7 @@ class App:
         self.prevFrame.pop()
 
 
+#Esta clase es la encargada de mostrar la página de inicio al entrar a la aplicación
 class StartPage(tk.Frame):
     def __init__(self, root, controller):
         tk.Frame.__init__(self, root)
@@ -199,6 +197,7 @@ class StartPage(tk.Frame):
         button = ttk.Button(self, text="Registrarse", command=lambda: controller.show_frame(Register))
         button.pack()
 
+#Agregar funcionalidades a distintos botones, o añadir mensajes en pantalla
 class Home(tk.Frame):
     def __init__(self, root, controller):
         tk.Frame.__init__(self, root)
