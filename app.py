@@ -197,3 +197,28 @@ class Search(tk.Frame):
             srchresult = tk.Button(self, text=song["song"]["name"] + " | "+ song["artist"]["name"], command=lambda:controller.songPage(Search))
             srchresult.pack()
 
+class Song(tk.Frame):
+    def _init_(self, root, controller):
+        tk.Frame._init_(self, root)
+        self.controller = controller
+        self.song = controller.song
+        button = tk.Button(self, text="atras", command=lambda: controller.back())
+        button.pack()
+        button = tk.Button(self, text="Inicio", command=lambda: self.returnHome())
+        button.pack()
+        name = tk.Label(self, text=controller.song["song"]["name"])
+        artist = tk.Label(self, text=controller.song["artist"]["name"])
+        name.pack()
+        artist.pack()
+        label = tk.Label(self, text="\ncanciones similares:")
+        label.pack()
+        similars = run(get_similar_songs, song=controller.song["song"]["name"])
+        
+        for s in similars:
+            print(s["song"]["name"])
+            tk.Button(self, text=s["song"]["name"], command=lambda: controller.select(s, self)).pack()
+
+    def returnHome(self):
+        self.controller.prevFrame.clear()
+        self.controller.show_frame(Home)
+
