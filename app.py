@@ -28,3 +28,15 @@ MATCH (s)-[r:from]-(a:artist)
 MATCH (s)-[t:from]-(b:album)
 RETURN s AS song, a AS artist, b AS album
 """
+
+sign_up = """
+CREATE (u:user {name: $name, password: $password, id: randomuuid()})
+RETURN TRUE;
+"""
+
+check_user = """
+MATCH (u:user {name: $name})
+RETURN COUNT{(u)} AS present
+"""
+
+    
