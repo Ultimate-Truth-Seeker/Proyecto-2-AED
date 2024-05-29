@@ -49,3 +49,13 @@ add_favorite = """
 CREATE (s:song {id: $Id})<-[r:favorite]-(u:user {id: $uid})
 RETURN TRUE
 """
+
+remove_favorite = """
+DELETE (s:song {id: $Id})<-[r:favorite]-(u:user {id: $uid})
+RETURN TRUE
+"""
+
+get_user_favorites = """
+MATCH (u:user {id:$uid})-[r:favorite]-(s:song)
+RETURN s AS song
+"""
