@@ -59,3 +59,17 @@ get_user_favorites = """
 MATCH (u:user {id:$uid})-[r:favorite]-(s:song)
 RETURN s AS song
 """
+
+#Esta función ejecuta una consulta en Neo4j y devuelve los resultados
+def makeQuery(tx, query, name=None, password = None, uid=None, Id= None, song=None, tag=None):
+    result = tx.run(query, name=name, password = password, uid=uid, Id= Id, song=song, tag=tag)
+    return list(result)
+
+
+import os
+from neo4j import GraphDatabase
+
+
+# son las credenciales para conectarse a tu base de datos de Neo4j
+URI = "neo4j+ssc://07e5e662.databases.neo4j.io"
+AUTH = ("neo4j", "Gyay1_asYeu7DCXRMkBeRLDg90a5oc2K1yhWR8F17iw")
