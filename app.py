@@ -70,6 +70,16 @@ import os
 from neo4j import GraphDatabase
 
 
-# son las credenciales para conectarse a tu base de datos de Neo4j
+# son las credenciales para conectarse a la base de datos de Neo4j
 URI = "neo4j+ssc://07e5e662.databases.neo4j.io"
 AUTH = ("neo4j", "Gyay1_asYeu7DCXRMkBeRLDg90a5oc2K1yhWR8F17iw")
+
+#  se encarga de ejecutar las consultas en la base de datos Neo4j
+def run(query, name=None, password = None, uid=None, Id= None, song=None, tag=None):
+    #Conexión a la base de datos 
+    with GraphDatabase.driver(URI, auth=AUTH) as driver:
+        #Verifica si la conexión se ha establecido correctamente 
+        driver.verify_connectivity()
+        #Inicia sesión con la base de datos 
+        with driver.session(database="neo4j") as session:
+            return session.execute_write(makeQuery, query, name, password, uid, Id, song, tag)
