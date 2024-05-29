@@ -134,3 +134,15 @@ class App:
         else:
             self.show_frame(self.prevFrame[len(self.prevFrame) - 1])
         self.prevFrame.pop()
+
+#Esta clase es la encargada de mostrar la página de inicio al entrar a la aplicación
+class StartPage(tk.Frame):
+    def _init_(self, root, controller):
+        tk.Frame._init_(self, root)
+        self.controller = controller
+        label = tk.Label(self, text="Bienvenido")
+        label.pack()
+        button = tk.Button(self, text="Iniciar sesión", command=lambda: controller.show_frame(LoginWindow))
+        button.pack()
+        button = tk.Button(self, text="Registrarse", command=lambda: controller.show_frame(Register))
+        button.pack()
