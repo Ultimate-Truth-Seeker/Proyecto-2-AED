@@ -1,3 +1,6 @@
+import tkinter as tk
+from tkinter import messagebox
+
 get_similar_songs = """
 MATCH (s:song {name: $song})-[r:similar]-(t:song)
 MATCH (t)-[u:from]-(a:artist)
@@ -83,3 +86,51 @@ def run(query, name=None, password = None, uid=None, Id= None, song=None, tag=No
         #Inicia sesión con la base de datos 
         with driver.session(database="neo4j") as session:
             return session.execute_write(makeQuery, query, name, password, uid, Id, song, tag)
+
+
+#Esta clase se encargará de mostrar en pantalla todas las opciones
+class App:
+    def _init_(self, root):
+        self.root = root
+        self.root.title("Recomendación Musical")
+        self.username = None
+        self.password = None
+        self.song = None
+        self.tag = None
+        self.prevFrame = []
+
+        self.frames = {}
+        tpl = (LoginWindow, StartPage, Register)
+        for F in tpl:
+            frame = F(root, self)
+            self.frames[F] = frame
+            frame.grid(row=0, column=0, sticky="nsew")
+
+        self.show_frame(StartPage)
+
+    def show_frame(self, page):
+        frame = self.frames[page]
+        frame.tkraise()
+
+    def update_frame(self, page):
+        frame = page(self.root, self)
+        self.frames[page] = frame
+        frame.grid(row=0, column=0, sticky="nsew")
+
+    def songPage(self, frame):
+        self.prevFrame.append(frame)
+        self.update_frame(Song)
+        self.show_frame(Song)
+
+    def select(self, s, page):
+        self.song = s
+        self.songPage(page)
+
+    def back(self):
+        if isinstance(self.prevFrame[len(self.prevFrame) - 1], Song):
+            self.song = self.prevFrame[len(self.prevFrame) - 1].song
+            self.update_frame(Song)
+            self.show_frame(Song)
+        else:
+            self.show_frame(self.prevFrame[len(self.prevFrame) - 1])
+        self.prevFrame.pop()
