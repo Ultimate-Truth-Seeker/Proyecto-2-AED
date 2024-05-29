@@ -222,3 +222,17 @@ class Song(tk.Frame):
         self.controller.prevFrame.clear()
         self.controller.show_frame(Home)
 
+class Tag(tk.Frame):
+    def _init_(self, root, controller):
+        tk.Frame._init_(self, root)
+        self.controller = controller
+        self.tag = controller.tag
+        button = tk.Button(self, text="Inicio", command=lambda: controller.show_frame(Home))
+        button.pack()
+        label = tk.Label(self, text=self.tag["tags"]["name"] + "\nListado de Canciones")
+        label.pack()
+        
+        songs = run(get_songs_bytag, tag=self.tag["tags"]["name"])
+        for s in songs:
+            print(s["song"]["name"])
+            tk.Button(self, text=s["song"]["name"], command=lambda: controller.select(s, Tag)).pack()
