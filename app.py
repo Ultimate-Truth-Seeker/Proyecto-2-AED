@@ -167,3 +167,22 @@ class Home(tk.Frame):
         taglabel.pack()
         for tg in tags:
             tk.Button(self, text=tg["tags"]["name"], command=lambda: self.chooseTag(tg)).pack()
+            
+    def log_out(self):        
+        self.controller.username = None
+        self.controller.password = None
+        self.controller.update_frame(LoginWindow)
+        self.controller.show_frame(StartPage)
+
+    def search(self, song):
+        srch = run(get_song, song=song)
+        if (len(srch) >0):
+            self.controller.song = srch[0]
+        self.controller.update_frame(Search)
+        self.controller.show_frame(Search)
+
+    def chooseTag(self, tag):
+        self.controller.tag = tag
+        self.controller.update_frame(Tag)
+        self.controller.show_frame(Tag)
+    
