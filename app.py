@@ -39,4 +39,13 @@ MATCH (u:user {name: $name})
 RETURN COUNT{(u)} AS present
 """
 
-    
+
+login = """
+MATCH (u:user {name: $name, password: $password})
+RETURN u AS user
+"""
+
+add_favorite = """
+CREATE (s:song {id: $Id})<-[r:favorite]-(u:user {id: $uid})
+RETURN TRUE
+"""
